@@ -146,8 +146,13 @@ def update_search():
 # --- 사이드바 필터 ---
 with st.sidebar:
     st.header("🔍 Filters")
-    only_text_gen_widget = st.checkbox("text-generation 모델만 보기", value=st.session_state.search_params["text_gen_only"])
+    only_text_gen_widget = st.checkbox("text-generation 모델 보기", value=st.session_state.search_params["text_gen_only"], help="이 옵션을 켜면 HF tag에 'text-generation'이 포함된 모델만 표시됩니다. 일부 텍스트 생성 모델은 태그가 누락되어 목록에 보이지 않을 수 있습니다.")
 
+    st.caption(
+    "⚠️ 찾는 모델이 보이지 않으면 체크를 해제해 검색해 보시고, "
+    "태그가 없더라도 텍스트 생성 모델일 수 있으니 HF의 모델 카드를 확인해 주십시오."
+    )
+    
     priority_authors = ["naver-hyperclovax", "google", "openai", "meta-llama", "mistralai", "microsoft", "Qwen", "deepseek-ai", "moonshotai", "zai.org", "baidu", "LGAI-EXAONE", "upstage", "kakaocorp", "skt", "K-intelligence"]
     authors_widget = st.multiselect("기업", options=priority_authors, default=st.session_state.search_params["authors"])
     
@@ -276,12 +281,16 @@ for _, row in page_df.iterrows():
     license_str = extract_license(row["tags"])
     size_str = row["param_size"] or ""
     task_str = row.get("pipeline_tag", extract_task_from_tags(row["tags"]) or "N/A")
+    region_label = "🇰🇷 국내 모델" if author in SPECIAL_AUTHORS else "🌏 해외 모델"
 
     meta_parts = []
     if size_str: meta_parts.append(f"📊 {size_str}")
     meta_parts.append(f"📅 Created {created_str}")
     if license_str: meta_parts.append(f"📄 License: {license_str}")
     if task_str and task_str != "N/A": meta_parts.append(f"🎯 {task_str}")
+    if region_label: meta_parts.append(f"{region_label}")
+
+
     meta_html = " • ".join(meta_parts)
 
     card_html = f"""
