@@ -194,7 +194,7 @@ with st.sidebar:
     </div>
     <div class="legend-item">
       <span class="legend-dot" style="background:{PURPLE}"></span>
-      <span>다운로드 5만 이상 (국내 모델)</span>
+      <span>다운로드 10만 이상 (국내 모델)</span>
     </div>
     <div class="legend-note">
       국내 기업: naver-hyperclovax, kakaocorp, lgai-exaone, upstage, skt, K-intelligence
@@ -265,7 +265,7 @@ for _, row in page_df.iterrows():
     border_color = "rgba(0,0,0,0.06)"
 
     # 2) 특정 조직 + 다운로드 5만~50만 → 연보라
-    if author in SPECIAL_AUTHORS and 50_000 <= downloads < 500_000:
+    if author in SPECIAL_AUTHORS and 100_000 <= downloads < 500_000:
         bg_color = "rgba(145, 97, 237, 0.14)"     # #9161ED with alpha
         border_color = "rgba(145, 97, 237, 0.35)"
 
